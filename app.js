@@ -1,6 +1,9 @@
 
-//선언부분
+//의존모듈 선언부분
 var express = require('express');
+var bodyParser = require('body-parser'); //post 모듈
+var http = require('http');
+var path = require('path');
 var app = express();
 
 //jade파일 형식을 보기좋게
@@ -10,11 +13,45 @@ app.locals.pretty = true;
 app.set('views', './views');
 app.set('view engine', 'jade');
 
+//post body-parser 연결(미들웨어))
+app.use(bodyParser.urlencoded({extended: false}));
 
 //정적 파일(미들웨어)
 //public directory로 지정
 app.use(express.static('public'));
 
+//post방식
+app.get('/form', function(req, res){
+  res.render('form');
+});
+app.post('/form_receiver', function(req, res){
+  var title = req.body.title;
+  var des = res.body.description;
+  res.send(title+', '+des);
+});
+app.get('/form_receiver', function(req, res){
+  var title = req.query.title;
+  var des = res.query.description;
+  res.send(title+', '+des);
+});
+
+//쿼리 스트링
+app.get('/topic/:id', function(req, res){
+  var topics = [
+    'Javascript is...',
+    'Nodejs is...',
+    'Express is...'
+  ];
+
+  var link = `
+  <a href="/topic/0">Javascript</a><br>
+  <a href="/topic/1">Nodejs</a><br>
+  <a href="/topic/2">Express</a><br><br>
+  ${topics[req.params.id]}
+  `
+  res.send(link);
+
+});
 
 //views 라우터 부분
 //express api 원리 알기
