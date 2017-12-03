@@ -33,6 +33,7 @@ app.post('/form_receiver', function(req,res){
 
 //쿼리 스트링
 app.get('/topic/:id', function(req, res){
+
   var topics = [
     'Javascript is...',
     'Nodejs is...',
