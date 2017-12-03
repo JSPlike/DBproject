@@ -12,27 +12,23 @@ app.locals.pretty = true;
 //템플릿 엔진사용
 app.set('views', './views');
 app.set('view engine', 'jade');
-
-//post body-parser 연결(미들웨어))
-app.use(bodyParser.urlencoded({extended: false}));
-
 //정적 파일(미들웨어)
 //public directory로 지정
 app.use(express.static('public'));
+//post body-parser 연결(미들웨어))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //post방식
 app.get('/form', function(req, res){
   res.render('form');
 });
-app.post('/form_receiver', function(req, res){
-  var title = req.body.title;
-  var des = res.body.description;
-  res.send(title+', '+des);
-});
 app.get('/form_receiver', function(req, res){
-  var title = req.query.title;
-  var des = res.query.description;
-  res.send(title+', '+des);
+  res.send('Hello Get');
+});
+app.post('/form_receiver', function(req,res){
+  var title = req.body.title;
+  var des = req.body.description;
+  res.send(title+','+des);
 });
 
 //쿼리 스트링
